@@ -25,7 +25,7 @@ Once you have extracted words that will be used in the evaluation sentences, you
 
 ### 1) Part-of-speech tags order
 
-This consists of minimal pair (`The <ADJ> <NOUN>.` versus `The <NOUN> <ADJ>`) and (`The <NOUN> <VERB>` and `The <VERB> <NOUN>`).
+This consists of minimal pair (`The <ADJ> <NOUN>` versus `The <NOUN> <ADJ>`) and (`The <NOUN> <VERB>` and `The <VERB> <NOUN>`).
 Example: 
 1) `The good cat.` vs `The cat good.`
 2) `The kitty lets.` vs`The lets kitty.`
