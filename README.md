@@ -1,6 +1,6 @@
 # Child-directed syntactic probing
 
-### What's the spot-the-word task?
+### What does the task consist of?
 
 In this task, the participant (be it a human or a machine) receives two spoken (or written) sentences, one of which is a grammatical sentence, the other one being an ungrammatical sentence.
 For instance: `I like candies` versus `I likes candies`. The participant is then asked to decide which of the two sentence is the grammatical one. If the participant fails, it obtains a score of 0, if it succeeds a score of 1.
