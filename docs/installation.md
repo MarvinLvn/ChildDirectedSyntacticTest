@@ -4,7 +4,7 @@
 
 ```bash
 conda env create -f env.yml
-conda activate cdlex
+conda activate cdsyn
 ```
 
 2) Make sure R>=4.0.0 is installed on your system, then, in a R session, run: 
