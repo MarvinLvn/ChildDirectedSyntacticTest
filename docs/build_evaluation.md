@@ -23,7 +23,7 @@ should set the `--n_to_keep` parameter. Although, bare in mind that this will re
 Once you have extracted words that will be used in the evaluation sentences, you'll need to further split them 
 (and this depends on the syntactic task you want to generate).
 
-### 1) At the beginning of syntax: part-of-speech prder
+### 1) Part-of-speech tags order
 
 This consists of minimal pair (`The <ADJ> <NOUN>.` versus `The <NOUN> <ADJ>`) and (`The <NOUN> <VERB>` and `The <VERB> <NOUN>`).
 Example: 
