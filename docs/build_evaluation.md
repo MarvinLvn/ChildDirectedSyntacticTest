@@ -49,8 +49,8 @@ To generate this task, you'll need:
 - a file `data/word_candidates/nouns_gendered.csv` that contain gendered nouns (along with their plural form and their gender)
 - a file `data/word_candidates/verbs_reflexive.csv` that contain reflexive verbs (a verb whose object is the same as its subject).
 
-Note: Verbs are conjugated to past tense (to avoid any mismatch between singular and plural in the present form). i
-If you re-generate this task, you should check that verbs correctly conjugated (see `conjugate_verb` function in which we had to fix
+Note: Verbs are conjugated to past tense (to avoid any mismatch between singular and plural in the present form).
+If you re-generate this task, you should check that verbs are correctly conjugated (see `conjugate_verb` function in which we had to fix
 many mistakes made by the automatic conjugator).
 
 ### 3) Determiner noun agreement
