@@ -1,0 +1,11 @@
+word,gender,equiv,plural
+mom,F,1,moms
+dad,M,0,dads
+girl,F,3,girls
+boy,M,2,boys
+man,M,5,men
+woman,F,4,women
+prince,M,7,princes
+princess,F,6,princesses
+sister,F,9,sisters
+brother,M,8,brothers
