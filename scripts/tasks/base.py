@@ -8,9 +8,18 @@ class BaseTask(metaclass=ABCMeta):
         self.word_path = word_path
         self.out_path = out_path
         self.init_words()
-        self._adjs = list(pd.read_csv(self.adjs_path)['word'])[:self.n_adjs]
-        self._nouns = list(pd.read_csv(self.nouns_path)['word'])[:self.n_nouns]
-        self._verbs = list(pd.read_csv(self.verbs_path)['word'])[:self.n_verbs]
+        self._adjs = list(pd.read_csv(self.adjs_path)['word'])
+        self._nouns = list(pd.read_csv(self.nouns_path)['word'])
+        self._verbs = list(pd.read_csv(self.verbs_path)['word'])
+
+        assert len(self._adjs) >= self.n_adjs
+        assert len(self._nouns) >= self.n_nouns
+        assert len(self._verbs) >= self.n_verbs
+
+        self._adjs = self._adjs[:self.n_adjs]
+        self._nouns = self._nouns[:self.n_nouns]
+        self._verbs = self._verbs[:self.n_verbs]
+
         self._verbs = [self.conjugate_verb(v) for v in self._verbs]
         self.pairs = []
 
@@ -79,6 +88,7 @@ class BaseTask(metaclass=ABCMeta):
 
         self.out_path.parent.mkdir(parents=True, exist_ok=True)
         with self.out_path.open("w") as fin:
+            print("Len is", len(self.pairs))
             for elem in self.pairs:
                 grammatical, ungrammatical = elem[0], elem[1]
                 fin.write("%s\t%s\n" % (grammatical, ungrammatical))

@@ -9,3 +9,13 @@ prince,M,7,princes
 princess,F,6,princesses
 sister,F,9,sisters
 brother,M,8,brothers
+queen,F,11,queens
+king,M,10,kings
+wife,F,13,wives
+husband,M,12,husbands
+aunt,F,15,aunts
+uncle,M,14,uncles
+daughter,F,17,daughters
+son,M,16,sons
+actress,F,19,actresses
+actor,M,18,actors

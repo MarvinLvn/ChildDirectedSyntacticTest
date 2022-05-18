@@ -65,12 +65,13 @@ def main(argv):
     to_exclude = ['chi', 'ross', 'laura', 'lot', 'bit', 'top', 'ma', 'e', 'sarah',
                   'naima', 'adam', 'b', 'william', 'o', 'carl', 'momma', 'michael',
                   'alex', 'd', 'nomi', 'bro', 's', 'henry', 'lily', 'david', 'peter',
-                  't', 'abe', 'c', 'paul', 'sis']
+                  't', 'abe', 'c', 'paul', 'sis', 'r',  'm']
     nouns = nouns[~nouns.word.isin(to_exclude)]
     nouns[:args.n_to_keep].to_csv(args.out / 'nouns.csv', index=False)
+    nouns[:2000].to_csv(args.out / '2000_nouns.csv', index=False)
 
     adjs = data.loc[data.adj_prob > 0.95, ['word', 'freq', 'adj_prob']]
-    to_exclude = ['thirst', 'craze', 'eensie', 'weensie', 'loll', 'ying', 'shag']
+    to_exclude = ['thirst', 'craze', 'eensie', 'weensie', 'loll', 'ying', 'shag', 'able', 'past', 'left']
     adjs = adjs[~adjs.word.isin(to_exclude)]
     adjs[:args.n_to_keep].to_csv(args.out / 'adjs.csv', index=False)
 

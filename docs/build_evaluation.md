@@ -30,7 +30,9 @@ Example:
 1) `The good cat.` vs `The cat good.`
 2) `The kitty lets.` vs`The lets kitty.`
 
-To generate this task, you'll need a file `data/word_candidates/nouns_animate.csv` that contain animate nouns.
+To generate this task, you'll need:
+- a file `data/word_candidates/nouns_animate.csv` that contains animate nouns.
+- a file `data/word_candidates/verbs_intransitive.csv` that contains intransitive verbs.
 
 ### 2) Anaphor agreement
 
