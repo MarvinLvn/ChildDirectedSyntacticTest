@@ -109,6 +109,10 @@ class AnaphorNumberAgreementTask(BaseTask):
             out = 'convinced'
         elif verb == 'hurt':
             out = 'hurt'
+        elif verb == 'eat':
+            out = 'ate'
+        elif verb == 'hang':
+            out = 'hung'
         else:
             out = self.conjugator.conjugate(verb).conjug_info['indicative']['indicative past tense']['3s']
         return out

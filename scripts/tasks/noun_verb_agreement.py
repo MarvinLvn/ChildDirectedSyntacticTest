@@ -16,8 +16,8 @@ class NounVerbAgreementTask(BaseTask):
 
     def init_words(self):
         self.nouns_path = self.word_path / 'nouns_gendered.csv'
-        self.verbs_path = self.word_path / 'verbs.csv'
-        self.n_verbs = 5
+        self.verbs_path = self.word_path / 'verbs_noun_verb_agreement.csv'
+        self.n_verbs = 10
         self.n_nouns = 10
 
     def generate_block(self, noun1, plural_noun1, noun2, verb, verb_first_person):

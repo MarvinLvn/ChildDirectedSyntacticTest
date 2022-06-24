@@ -61,7 +61,7 @@ def main(argv):
     data['verb_prob'] = data[verb_col].sum(axis=1)
 
     # Filter words whose proba is lower than 0.9 and save to csv file
-    nouns = data.loc[data.noun_prob > 0.95, ['word', 'freq', 'noun_prob']]
+    nouns = data.loc[data.noun_prob > 0.9, ['word', 'freq', 'noun_prob']]
     to_exclude = ['chi', 'ross', 'laura', 'lot', 'bit', 'top', 'ma', 'e', 'sarah',
                   'naima', 'adam', 'b', 'william', 'o', 'carl', 'momma', 'michael',
                   'alex', 'd', 'nomi', 'bro', 's', 'henry', 'lily', 'david', 'peter',
@@ -70,12 +70,12 @@ def main(argv):
     nouns[:args.n_to_keep].to_csv(args.out / 'nouns.csv', index=False)
     nouns[:2000].to_csv(args.out / '2000_nouns.csv', index=False)
 
-    adjs = data.loc[data.adj_prob > 0.95, ['word', 'freq', 'adj_prob']]
+    adjs = data.loc[data.adj_prob > 0.9, ['word', 'freq', 'adj_prob']]
     to_exclude = ['thirst', 'craze', 'eensie', 'weensie', 'loll', 'ying', 'shag', 'able', 'past', 'left']
     adjs = adjs[~adjs.word.isin(to_exclude)]
     adjs[:args.n_to_keep].to_csv(args.out / 'adjs.csv', index=False)
 
-    verbs = data.loc[data.verb_prob > 0.95, ['word', 'freq', 'verb_prob']]
+    verbs = data.loc[data.verb_prob > 0.6, ['word', 'freq', 'verb_prob']]
     to_exclude = ['ooh', 'best', 'zipper', 'pishie', 'sticker', 'dirty', 'scoot',
                   'sprout', 'pant', 'jingle', 'bicycle', 'clink', 'scallop', 'boog',
                   'muddy', 'headquarter']

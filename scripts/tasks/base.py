@@ -8,19 +8,23 @@ class BaseTask(metaclass=ABCMeta):
         self.word_path = word_path
         self.out_path = out_path
         self.init_words()
-        self._adjs = list(pd.read_csv(self.adjs_path)['word'])
-        self._nouns = list(pd.read_csv(self.nouns_path)['word'])
-        self._verbs = list(pd.read_csv(self.verbs_path)['word'])
 
-        assert len(self._adjs) >= self.n_adjs
-        assert len(self._nouns) >= self.n_nouns
-        assert len(self._verbs) >= self.n_verbs
+        if hasattr(self, 'adjs_path'):
+            self._adjs = list(pd.read_csv(self.adjs_path)['word'])
+            assert len(self._adjs) >= self.n_adjs
+            self._adjs = self._adjs[:self.n_adjs]
 
-        self._adjs = self._adjs[:self.n_adjs]
-        self._nouns = self._nouns[:self.n_nouns]
-        self._verbs = self._verbs[:self.n_verbs]
+        if hasattr(self, 'nouns_path'):
+            self._nouns = list(pd.read_csv(self.nouns_path)['word'])
+            assert len(self._nouns) >= self.n_nouns
+            self._nouns = self._nouns[:self.n_nouns]
 
-        self._verbs = [self.conjugate_verb(v) for v in self._verbs]
+        if hasattr(self, 'verbs_path'):
+            self._verbs = list(pd.read_csv(self.verbs_path)['word'])
+            assert len(self._verbs) >= self.n_verbs
+            self._verbs = self._verbs[:self.n_verbs]
+            self._verbs = [self.conjugate_verb(v) for v in self._verbs]
+
         self.pairs = []
 
 
