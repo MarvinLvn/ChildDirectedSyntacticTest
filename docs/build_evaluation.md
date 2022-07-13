@@ -18,7 +18,7 @@ By default, the script extract the 100 most frequent nouns (resp. adjectives, re
 being a noun (resp. adj, resp. verb) is greater than 0.95. However, you may need to extract more words, in which case you
 should set the `--n_to_keep` parameter. Although, bare in mind that this will require more manual work !
 
-## Manual work & task generation
+## Manual work
 
 Once you have extracted words that will be used in the evaluation sentences, you'll need to further split them 
 (and this depends on the syntactic task you want to generate).
@@ -64,7 +64,22 @@ To generate this task, you'll need:
 
 Same as above.
 
+## Generate sentences
 
+```bash
+python scripts/build_tasks.py --which adj_noun_order
+```
+
+where the `--which` parameter must belong to ['adj_noun_order', 'noun_verb_order', 'ana_gender', 'ana_number', 'det_noun', 'noun_verb', 'all'].
+
+## Synthetize the sentences
+
+```bash
+python scripts/synthesize_sentences.py --credentials_path /path/to/my/credentials.json --which adj_noun_order --test 
+```
+
+where the `--which` parameter must belong to ['adj_noun_order', 'noun_verb_order', 'ana_gender', 'ana_number', 'det_noun', 'noun_verb', 'all'].
+Once this command has finished, you can check the few sentences that have been generated, and rerun the same command without the `--test` flag to generate the whole training set.
 
 
 

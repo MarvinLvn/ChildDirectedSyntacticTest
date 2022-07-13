@@ -71,7 +71,8 @@ def main(argv):
     nouns[:2000].to_csv(args.out / '2000_nouns.csv', index=False)
 
     adjs = data.loc[data.adj_prob > 0.9, ['word', 'freq', 'adj_prob']]
-    to_exclude = ['thirst', 'craze', 'eensie', 'weensie', 'loll', 'ying', 'shag', 'able', 'past', 'left']
+    to_exclude = ['thirst', 'craze', 'eensie', 'weensie', 'loll', 'ying', 'shag', 'able', 'past', 'left', 'born',
+                  'full', 'ease', 'sharp', 'wide', 'own']
     adjs = adjs[~adjs.word.isin(to_exclude)]
     adjs[:args.n_to_keep].to_csv(args.out / 'adjs.csv', index=False)
 
