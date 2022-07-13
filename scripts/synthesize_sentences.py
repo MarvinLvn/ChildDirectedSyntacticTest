@@ -66,7 +66,7 @@ def main(argv):
         print("Noun verb agreement task:", end=' ')
         input = args.input / 'noun_verb_agreement.csv'
         output = args.out / input.stem
-        synthetize(input, output, args.credentials_path, args.testwhich)
+        synthetize(input, output, args.credentials_path, args.test)
 
 
 if __name__ == "__main__":
