@@ -199,11 +199,11 @@ class BaseCorporaSynthesisTask(BaseSpeechSynthesisTask):
         logger.info("Starting synthesis...")
         loop = asyncio.get_event_loop()
         for synth, words in synth_sentences.items():
-            for sentences_chunck in self.chunkify(sentences, 2 ** 12):
+            for words_chunk in self.chunkify(words, 2 ** 12):
                 logger.info(f"For synth with voice id {synth.voice_id}")
                 audio_folder = synth_folder / Path(synth.voice_id)
                 audio_folder.mkdir(parents=True, exist_ok=True)
-                async_tasks = self.run_synth(sentences_chunck,
+                async_tasks = self.run_synth(words_chunk,
                                              synth,
                                              audio_folder)
                 loop.run_until_complete(async_tasks)
