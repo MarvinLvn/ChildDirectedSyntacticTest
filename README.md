@@ -16,4 +16,4 @@ WIP
 
 1. [Install](./docs/installation.md)
 2. [Create the evaluation set](./docs/build_evaluation.md)
-3. [Compute the accuracy](./docs/compute_accuracy.md)
+3. [Run the tasks](./docs/run_tasks.md)
