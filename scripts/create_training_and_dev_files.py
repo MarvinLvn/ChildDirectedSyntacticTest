@@ -34,7 +34,7 @@ def write_utterances_in_text_files(utterances: list,
             continue
         output_phonemic_phonemes.write(f"{phonemes}\n")
 
-def create_sentences_files(csvs_directory: str,
+def main(csvs_directory: str,
                             out_directory: str,
                             adults: List[str]=["Mother", "Father"]) -> None:
     """
@@ -125,4 +125,4 @@ if __name__ == "__main__" :
                         help="The directory where outputs will be stored.",
                         required=True)
     args = parser.parse_args()
-    create_sentences_files(args.csvs_directory, args.out_directory_name)
+    main(args.csvs_directory, args.out_directory_name)
