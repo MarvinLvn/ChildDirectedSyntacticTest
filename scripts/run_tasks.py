@@ -33,40 +33,36 @@ def run_tasks(tasks_folder: str,
     task_scores = {}
     for task in tqdm(task_csvs, total=total_tasks) :
         task_name = task.stem
-        total = 0.0
-        goods = 0.0
+        total_sentences = 0.0
+        good_classifications = 0.0
         with open(task, mode="r", encoding="utf-8") as task_file :
             task_csv = csv.reader(task_file, delimiter="\t")
-            for real_sentence, modified_sentence in task_csv :
-                real_sentence, modified_sentence = real_sentence.strip(), modified_sentence.strip()
+            for real_sentence, fake_sentence in task_csv :
+                real_sentence, fake_sentence = real_sentence.strip(), fake_sentence.strip()
+                real_sentence, fake_sentence = real_sentence.lower(), fake_sentence.lower()
                 real_sentence = preprocess(real_sentence, phonemized, tokenized_in_words)
-                modified_sentence = preprocess(modified_sentence, phonemized, tokenized_in_words)
+                fake_sentence = preprocess(fake_sentence, phonemized, tokenized_in_words)
                 real_sentence = list(ngram_lm.get_ngrams(real_sentence.split(" ")))
-                modified_sentence = list(ngram_lm.get_ngrams(modified_sentence.split(" ")))
-                goods += (int(ngram_lm.to_ngram_logprob(real_sentence) > \
-                                ngram_lm.to_ngram_logprob(modified_sentence)))
-                total += 1
-        task_scores[task_name] = goods / total
+                fake_sentence = list(ngram_lm.get_ngrams(fake_sentence.split(" ")))
+                real_sentence_logprob = ngram_lm.to_ngram_logprob(real_sentence) / len(real_sentence)
+                fake_sentence_logprob = ngram_lm.to_ngram_logprob(fake_sentence) / len(fake_sentence)
+                good_classifications += int(real_sentence_logprob > fake_sentence_logprob)
+                total_sentences += 1
+        task_scores[task_name] = good_classifications / total_sentences
     return task_scores
 
 if __name__ == "__main__" :
     from argparse import ArgumentParser
     import csv
-    print("Loading phonemizer...")
     from preprocessing_tools import preprocess
-    print("Phonemizer loaded !")
     parser = ArgumentParser()
-    parser.add_argument("--train_file",
-                        type=str,
-                        help="The directory containing the train file.",
-                        required=True)
     parser.add_argument("--tasks_folder",
                     type=str,
                     help="The folder containing the tasks",
                     required=True)
     parser.add_argument("--ngram_model",
                         type=str,
-                        help="The trained ngram model.",
+                        help="The trained ngram language model.",
                         required=True)
 
     parser.add_argument('--phonemize', action='store_true')
@@ -77,21 +73,21 @@ if __name__ == "__main__" :
                         type=str,
                         help="The filename of the output file",
                         required=True)
-    parser.set_defaults(feature=False)
-    parser.set_defaults(tokenized_in_words=True)
     args = parser.parse_args()
 
-    out_directory = Path("results")
+    out_directory = Path("results/tasks_results")
     out_directory.mkdir(exist_ok=True, parents=True)
     ngram_lm = NGramLanguageModel()
     print("Loading the model...")
-    ngram_lm.load_parameters(args.ngram_model)
+    ngram_lm.load_model(args.ngram_model)
     print("Running the tasks...")
     result_tasks = run_tasks(args.tasks_folder,
                                 ngram_lm,
                                 args.phonemize,
                                 args.tokenize_in_words)
     with open(out_directory / Path(f"{args.out_filename}.csv"), "w") as out_csv:
-        csv_writer = csv.writer(out_csv)
+        fieldnames = ['task', 'accuracy']
+        csv_writer = csv.DictWriter(out_csv, fieldnames=fieldnames)
+        csv_writer.writeheader()
         for task, accuracy in result_tasks.items():
-            csv_writer.writerow([task, accuracy])
+            csv_writer.writerow({"task": task, "accuracy": accuracy})

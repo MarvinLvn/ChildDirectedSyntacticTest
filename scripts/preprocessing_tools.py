@@ -45,23 +45,6 @@ def remove_ponctuations(utterance: str) -> str:
     """
     return utterance.translate(str.maketrans('', '', string.punctuation))
 
-def remove_multiple_spaces(utterance: str) -> str:
-    """
-    Remove multiple spaces from a given utterance.
-
-    Parameters
-    ----------
-    utterance: str
-        Utterance from which multiple successive spaces\
-        will be replaced.
-
-    Return
-    -------
-    - str
-        Utterance without multiple successive spaces.
-    """
-    return re.sub(' +', ' ', utterance)
-
 def phonemic_words_tokenization(utterance: str) -> str:
     """
     Tokenize a phonemized utterance in words by\
@@ -115,7 +98,7 @@ def phonemization(utterance: str) -> str:
 
 def preprocess(utterance: str,
                 phonemize: bool=True,
-                words: bool=True) -> str:
+                tokenize_in_words: bool=True) -> str:
     """
     Preprocess a given utterance by callin multiple functions.
 
@@ -135,7 +118,7 @@ def preprocess(utterance: str,
     utterance = clean_utterance(utterance)
     if phonemize :
         utterance = phonemization(utterance)
-        if words : 
+        if tokenize_in_words : 
             return phonemic_words_tokenization(utterance)
         return phonemic_phonemes_tokenization(utterance)
     return utterance

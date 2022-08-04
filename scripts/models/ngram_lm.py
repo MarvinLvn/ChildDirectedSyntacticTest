@@ -17,7 +17,7 @@ if __name__ == "__main__" :
                         required=False)
     parser.add_argument("--smooth",
                         type=float,
-                        default=1e-6,
+                        default=1e-3,
                         help="The value for smoothing the probability\
                             distribution of the language model",
                         required=False)
@@ -33,4 +33,4 @@ if __name__ == "__main__" :
     print("Training the model...")
     ngram_lm.estimate(args.train_file)
     print("Saving the model...")
-    ngram_lm.save_parameters(args.out_directory, args.out_filename)
+    ngram_lm.save_model(args.out_directory, args.out_filename)

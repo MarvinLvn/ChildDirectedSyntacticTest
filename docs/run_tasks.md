@@ -9,7 +9,7 @@ python scripts/download_providence_csvs.py --out_directory_name data/children_cs
 Always being with the `cdsyn` environment, run this command:
 
 ```bash
-python scripts/create_training_files.py --csvs_directory data/children_csvs/ --out_directory_name data/tokenized/
+python scripts/create_training_and_dev_files.py --csvs_directory data/children_csvs/ --out_directory_name data/tokenized/
 ```
 
 For all the following steps, activate the `paraphone` environment
@@ -19,7 +19,7 @@ For all the following steps, activate the `paraphone` environment
 Train and save models using paraphone scripts. For example, for a orthographic word level language model of order 5, run this command to train the model and save the model on a folder `trained` :
 
 ```bash
-python scripts/models/ngram_lm.py --train_file data/tokenized/providence_orthographic_tokenized_in_words.txt --out_directory trained --out_filename fivegram_lm_orthographic_words --ngram_size 5
+python scripts/models/ngram_lm.py --train_file data/tokenized/train/providence_orthographic_form_tokenized_in_words.train --out_directory trained --out_filename bigram_lm_orthographic_form_tokenized_in_words --ngram_size 2
 ```
 
 # 4) Test the models on the syntactic tasks
