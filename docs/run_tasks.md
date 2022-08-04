@@ -27,7 +27,7 @@ python scripts/models/ngram_lm.py --train_file data/tokenized/train/providence_o
 Test the trained models in the previous step on the syntactic tasks. For example, for the fivegram orthographic words language model, run this command:
 
 ```bash
-python scripts/run_tasks.py --train_file data/tokenized/providence_orthographic_tokenized_in_words.txt --tasks_folder data/tasks/ --no-phonemize --tokenize_in_words --ngram_model trained/fivegram_lm_orthographic_words.json --out_filename fivegram_lm_orthographic_words
+python scripts/run_tasks.py --tasks_folder data/tasks/ --no-phonemize --tokenize_in_words --ngram_model trained/trigram_lm_orthographic_form_tokenized_in_words.json --out_filename trigram_lm_orthographic_form_tokenized_in_words
 ```
 
 `--phonemize` argument means whether phonemize or not the sentences. Since, this language model works on orthographic form, phonemization is not needed.
