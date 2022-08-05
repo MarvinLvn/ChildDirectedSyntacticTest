@@ -1,0 +1,7 @@
+Task,Accuracy
+adj_noun_order,0.138125
+anaphor_gender_agreement,0.25
+anaphor_number_agreement,0.265
+determiner_noun_agreement,0.283
+noun_verb_agreement,0.4975
+noun_verb_order,0.983125

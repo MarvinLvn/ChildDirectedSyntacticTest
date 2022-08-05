@@ -1,15 +1,17 @@
-"""Implementation of evaluation function for ngram language models"""
+"""Implementation of an evaluation function for ngram language models."""
 
 from typing import Dict
 from math import exp
+from argparse import ArgumentParser
 from pathlib import Path
-from paraphone.ngrams_tools import NGramLanguageModel
+from models.ngram_lm import NGramLanguageModel
+import pandas as pd
 
 def evaluate(text_file: str,
-                ngram_language_model: NGramLanguageModel) -> Dict[str, float]:
+             ngram_language_model: NGramLanguageModel) -> Dict[str, float]:
     """
-    This function evaluate a ngram language model on a\
-    given raw text file. This texte file muste already be\
+    This function evaluates a ngram language model on a\
+    given raw text file. This text file must already be\
     preprocessed and tokenized, with one sentence/utterance\
     per line. The evaluation of the ngram language model\
     consists in returning the log-probability and the\
@@ -29,23 +31,48 @@ def evaluate(text_file: str,
         Dictionary associating 
     """
     with open(text_file) as input_file:
-        results = {}
-        total_ngrams = 0.0
+        evaluation_results = {}
+        total_utterances = 0.0
         total_logprobs = 0.0
-        for sentence in input_file:
-            sentence = sentence.strip()
-            ngrams = list(ngram_language_model.get_ngrams(sentence.split(" ")))
-            total_ngrams += len(ngrams)
-            total_logprobs += ngram_language_model.to_ngram_logprob(ngrams)
-        corpus_log_prob = total_logprobs / total_ngrams
-        results["log_prob"] = corpus_log_prob
-        results["perplexity"] = exp(-corpus_log_prob)
-    return results
+        for utterance in input_file:
+            utterance = utterance.strip()
+            utterance_logprob = ngram_language_model.assign_logprob(utterance)
+            if not utterance_logprob :
+                continue
+                # This condition can only holds when pad_utterance is set to\
+                # False in the ngram language model.
+                # We ignore utterances smaller than the ngram size of
+                # the language model.
+            total_logprobs += utterance_logprob
+            total_utterances += 1
+        corpus_log_prob = total_logprobs / total_utterances
+        evaluation_results["log_prob"] = corpus_log_prob
+        evaluation_results["perplexity"] = exp(-corpus_log_prob)
+    return evaluation_results
 
-if __name__ == "__main__" :
-    from argparse import ArgumentParser
-    import csv
+def main(args) -> None:
+    """
+    This function calls the evaluation function\
+    and stores the results in a csv file.
+    """
 
+    ngram_lm = NGramLanguageModel()
+    ngram_lm.load_model(args.ngram_model)
+
+    train_evaluation = evaluate(args.train_file, ngram_lm)
+    train_evaluation['corpus'] = 'train'
+    dev_evaluation = evaluate(args.dev_file, ngram_lm)
+    dev_evaluation['corpus'] = 'dev'
+    out_directory = Path("results/model_evaluations")
+    out_directory.mkdir(exist_ok=True, parents=True)
+
+    pd.DataFrame([train_evaluation, dev_evaluation],
+                columns=['Corpus', 'Log_prob', 'Perplexity'],
+                ).to_csv(out_directory / f"{args.out_filename}.csv",
+                        index=False)
+
+
+if __name__ == "__main__" :    
     parser = ArgumentParser()
     parser.add_argument("--train_file",
                         type=str,
@@ -63,21 +90,4 @@ if __name__ == "__main__" :
                         type=str,
                         help="The filename of the output results.",
                         required=True)
-    args = parser.parse_args()
-
-    ngram_lm = NGramLanguageModel()
-    ngram_lm.load_model(args.ngram_model)
-
-    train_evaluation = evaluate(args.train_file, ngram_lm)
-    train_evaluation['corpus'] = 'train'
-    dev_evaluation = evaluate(args.dev_file, ngram_lm)
-    dev_evaluation['corpus'] = 'dev'
-    out_directory = Path("results/model_evaluations")
-    out_directory.mkdir(exist_ok=True, parents=True)
-    with open(out_directory / Path(f"{args.out_filename}.csv"),
-                'w', newline='') as csvfile:
-        fieldnames = ['corpus', 'log_prob', 'perplexity']
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-        writer.writeheader()
-        writer.writerow(train_evaluation)
-        writer.writerow(dev_evaluation)
+    main(parser.parse_args())

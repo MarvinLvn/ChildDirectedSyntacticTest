@@ -1,7 +1,7 @@
 """This module implements many functions for preprocessing
     raw text corpora or sentences."""
 
-import string, re
+import string
 import pylangacq
 from phonemizer.backend import EspeakBackend
 from phonemizer.separator import Separator
@@ -15,7 +15,7 @@ def clean_utterance(utterance: str) -> str:
 
     Parameters
     ----------
-    utterance : str
+    utterance: str
         The utterance to clean.
     
     Return
@@ -35,12 +35,12 @@ def remove_ponctuations(utterance: str) -> str:
 
     Parameters
     ----------
-    - utterance : str
+    - utterance: str
         The utterance from which the punctuations will be removed.
 
     Returns
     -------
-    str :
+    str:
         The utterance without punctuations.
     """
     return utterance.translate(str.maketrans('', '', string.punctuation))
@@ -52,7 +52,7 @@ def phonemic_words_tokenization(utterance: str) -> str:
 
     Parameters
     ----------
-    - utterance : str
+    - utterance: str
         the utterance to tokenize.
     
     Return
@@ -70,7 +70,7 @@ def phonemic_phonemes_tokenization(utterance: str) -> str:
 
     Parameters
     ----------
-    - utterance : str
+    - utterance: str
         the utterance to tokenize.
     
     Return
@@ -100,13 +100,13 @@ def preprocess(utterance: str,
                 phonemize: bool=True,
                 tokenize_in_words: bool=True) -> str:
     """
-    Preprocess a given utterance by callin multiple functions.
+    Preprocess a given utterance by calling multiple functions.
 
     Parameters
     ----------
     - phonemize: bool
         Whether phonemize the utterance or not.
-    - words : bool
+    - words: bool
         Whether tokenize the utterance in words or not.
     
     Return
@@ -114,6 +114,7 @@ def preprocess(utterance: str,
     - str:
         The cleaned utterance.
     """
+    utterance = utterance.strip().lower()
     utterance = remove_ponctuations(utterance)
     utterance = clean_utterance(utterance)
     if phonemize :
