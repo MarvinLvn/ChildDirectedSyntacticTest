@@ -1,11 +1,14 @@
 """Implementation of an evaluation function for ngram language models."""
 
 from typing import Dict
+import random
 from math import exp
 from argparse import ArgumentParser
 from pathlib import Path
 from models.ngram_lm import NGramLanguageModel
 import pandas as pd
+
+random.seed(1798)
 
 def evaluate(text_file: str,
              ngram_language_model: NGramLanguageModel) -> Dict[str, float]:
