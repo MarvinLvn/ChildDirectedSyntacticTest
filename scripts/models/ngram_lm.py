@@ -1,5 +1,6 @@
 """This module implements a ngram language model."""
 
+# import standard python modules
 import random
 from typing import Union, List, Tuple, Iterator
 import json
@@ -7,6 +8,9 @@ import logging
 from pathlib import Path
 from itertools import tee
 from collections import defaultdict
+from argparse import ArgumentParser
+
+# import download packages
 import numpy as np
 
 random.seed(1798)
@@ -15,6 +19,7 @@ LOGGER = logging.getLogger(__name__)
 logging.basicConfig(level=logging.DEBUG)
 
 Ngram = Tuple[str]
+
 class NGramLanguageModel:
     """
     This class implements a ngram language model with
@@ -64,8 +69,8 @@ class NGramLanguageModel:
         for number_of_shifts, iterator in enumerate(iterables) :
             for _ in range(number_of_shifts) :
                 next(iterator, None)
-        # This returned iterable will be empty if the length of the utterance
-        # is smaller than the ngram size.
+        # If pad_utterance is false, this returned iterable will be empty\
+        # if the length of the utterance is smaller than the ngram size.
         return zip(*iterables)
 
     def estimate(self, train_file: str) -> None:
@@ -89,10 +94,9 @@ class NGramLanguageModel:
                     vocabulary.add(next_token)
 
             # will be used to smooth the probability distribution
-            # by adding the 'smooth' value to each token
-            # in the vocabulary
+            # by adding the 'smooth' value to each token in the vocabulary
             self.denominator_smoother = len(vocabulary) * self.smooth
-        LOGGER.info("Model trained!")
+        LOGGER.info("Model trained.")
         
     def save_model(self, out_dirname: str, out_filename: str) -> None:
         """
@@ -118,7 +122,7 @@ class NGramLanguageModel:
         with open(out_directory / f"{out_filename}.json",
                     "w", encoding="utf-8") as out_model_file:
             json.dump(model, out_model_file)
-        LOGGER.info("Modle saved!")
+        LOGGER.info("Modle saved.")
 
     def load_model(self, path: str) -> None:
         """
@@ -163,15 +167,15 @@ class NGramLanguageModel:
         left_context = tuple(left_context)
         left_context_seen = self.ngram_counter.get(left_context, False)
         if not left_context_seen:
-            # unknown left_context, return smoothed probability
-            # (very small probability) instead of returning 0 probability
+            # unknown left_context, return smoothed probability, that is a
+            # very small probability instead of returning 0 probability
             return self.smooth / self.denominator_smoother
         denominator = sum(left_context_seen.values()) + self.denominator_smoother
         # add also the smooth to the numerator, so all sums up to one.
         numerator = self.ngram_counter[left_context].get(next_token, 0.0) + self.smooth
         return numerator / denominator
 
-    def assign_logprob(self, utterance: List[str]) -> float:
+    def assign_logprob(self, utterance: str) -> float:
         """
         This function will assign a normalised log proabability
         of give utterance.
@@ -204,7 +208,6 @@ def main(args) -> None:
     ngram_lm.save_model(args.out_directory, args.out_filename)
 
 if __name__ == "__main__" :
-    from argparse import ArgumentParser
     parser = ArgumentParser()
     parser.add_argument("--train_file",
                         type=str,
