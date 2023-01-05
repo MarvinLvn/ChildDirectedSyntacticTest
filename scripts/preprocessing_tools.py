@@ -1,7 +1,7 @@
 """This module implements many functions for preprocessing
     raw text corpora or sentences."""
 
-import string, re
+import string
 import pylangacq
 from phonemizer.backend import EspeakBackend
 from phonemizer.separator import Separator
@@ -15,7 +15,7 @@ def clean_utterance(utterance: str) -> str:
 
     Parameters
     ----------
-    utterance : str
+    utterance: str
         The utterance to clean.
     
     Return
@@ -35,32 +35,15 @@ def remove_ponctuations(utterance: str) -> str:
 
     Parameters
     ----------
-    - utterance : str
+    - utterance: str
         The utterance from which the punctuations will be removed.
 
     Returns
     -------
-    str :
+    str:
         The utterance without punctuations.
     """
     return utterance.translate(str.maketrans('', '', string.punctuation))
-
-def remove_multiple_spaces(utterance: str) -> str:
-    """
-    Remove multiple spaces from a given utterance.
-
-    Parameters
-    ----------
-    utterance: str
-        Utterance from which multiple successive spaces\
-        will be replaced.
-
-    Return
-    -------
-    - str
-        Utterance without multiple successive spaces.
-    """
-    return re.sub(' +', ' ', utterance)
 
 def phonemic_words_tokenization(utterance: str) -> str:
     """
@@ -69,7 +52,7 @@ def phonemic_words_tokenization(utterance: str) -> str:
 
     Parameters
     ----------
-    - utterance : str
+    - utterance: str
         the utterance to tokenize.
     
     Return
@@ -87,7 +70,7 @@ def phonemic_phonemes_tokenization(utterance: str) -> str:
 
     Parameters
     ----------
-    - utterance : str
+    - utterance: str
         the utterance to tokenize.
     
     Return
@@ -115,15 +98,15 @@ def phonemization(utterance: str) -> str:
 
 def preprocess(utterance: str,
                 phonemize: bool=True,
-                words: bool=True) -> str:
+                tokenize_in_words: bool=True) -> str:
     """
-    Preprocess a given utterance by callin multiple functions.
+    Preprocess a given utterance by calling multiple functions.
 
     Parameters
     ----------
     - phonemize: bool
         Whether phonemize the utterance or not.
-    - words : bool
+    - words: bool
         Whether tokenize the utterance in words or not.
     
     Return
@@ -131,11 +114,12 @@ def preprocess(utterance: str,
     - str:
         The cleaned utterance.
     """
+    utterance = utterance.strip().lower()
     utterance = remove_ponctuations(utterance)
     utterance = clean_utterance(utterance)
     if phonemize :
         utterance = phonemization(utterance)
-        if words : 
+        if tokenize_in_words : 
             return phonemic_words_tokenization(utterance)
         return phonemic_phonemes_tokenization(utterance)
     return utterance

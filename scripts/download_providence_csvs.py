@@ -1,9 +1,9 @@
 """This script downloads the CSV data\
 of the 6 children of the Providence corpus"""
 
-from pathlib import Path
-import os
 from typing import Set
+from pathlib import Path
+from argparse import ArgumentParser
 import childespy
 
 # instead of loading all the data once in the memory,
@@ -30,7 +30,6 @@ def downloads_children_csvs(out_directory_name: str) -> None:
                                     f"{out_directory_name}/{children}.csv")
 
 if __name__ == "__main__" :
-    from argparse import ArgumentParser
     parser = ArgumentParser()
     parser.add_argument("--out_directory_name",
                         help="The directory where outputs will be stored.",
