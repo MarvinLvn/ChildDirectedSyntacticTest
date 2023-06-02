@@ -8,9 +8,21 @@ The accuracy is computed as the proportion of trials for which the participant s
 
 When considering a machine participant, one has to extract the probability of the sentence, which is expected to be higher for the grammatical sentence than for the ungrammatical one (how to extract this measure of probability is one of the numerous design choice the programmer is faced with). 
 
-### How minimal pairs of sentences are generated?
+### Examples of stimuli
 
-WIP
+<center>
+
+| Phenomenon                | Sentence example                                                      |
+|---------------------------|-----------------------------------------------------------------------|
+| Adjective-noun order      | ✓ The good mom. <br> ✗ The mom good.                                  |
+| Noun-verb order           | ✓ The dragon says. <br> ✗ The says dragon.                            |
+| Anaphor-gender agreement  | ✓ The dad cuts himself. <br> ✗ The dad cuts herself.                  |
+| Anaphor-number agreement  | ✓The boys told themselves. <br> ✗ The boys told himself.              |
+| Determiner-noun agreement | ✓ Each good sister. <br> ✗ Many good sister.                          |
+| Noun-verb agreement       | ✓ The prince needs the princess. <br> ✗ The prince need the princess. |
+
+Table 2: Minimal pairs of grammatical (✓)  and ungrammatical (✗) sentences used in the syntactic task.
+</center>
 
 ### Getting started
 
